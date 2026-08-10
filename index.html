@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+				<meta charset="utf-8">
+				<link rel="stylesheet" href="style.css">
+				<title>Buscaminas</title>
+</head>
+<body id="bodi">
+  <header>
+    <div class="info">
+      <p id="remaining-mines">0</p>
+      <button id="recharge-button"><img src="images/live.jpg" alt="cara feliz"></button>
+      <p id="time">0</p>
+    </div>
+  </header>
+  <main>
+   <div class="difficulties">
+       <button id="begginer" class="buttond" title="10 x 8">principiante</button>
+       <button id="easy" class="buttond" title="14 x 9">facil</button>
+       <button id="medium" class="buttond" title="20 x 15">intermedio</button>
+       <button id="advanced" class="buttond" title="30 x 20">avanzado</button>
+   </div>
+    <table id="minesweepers">
+        
+    </table>
+    <audio id="audio" controls>
+      <source type="audio/wav" src="bomb_song.wav">
+    </audio>
+  </main>
+				<script src="script.js"></script>
+</body>
+</html>

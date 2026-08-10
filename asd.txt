@@ -1,0 +1,767 @@
+let beginner_button = document.getElementById("begginer")
+let easy_button = document.getElementById("easy")
+let medium_button = document.getElementById("medium")
+let advanced_button = document.getElementById("advanced")
+
+let tables = document.getElementById("minesweepers")
+
+let row = 0;
+let columns = 0;
+let mines = 0;
+let total_buttons = 0;
+let buttons_mines = {};
+
+
+beginner_button.addEventListener("click", function() {
+
+  row = 10;
+  mines = 7
+  columns = 8;
+  total_buttons = row * columns;
+  hideDifficulties();
+  generateTable(row, columns);
+
+});
+
+easy_button.addEventListener("click", function() {
+
+  row = 14;
+  mines = 15
+  columns = 9;
+  total_buttons = row * columns;
+  hideDifficulties();
+  generateTable(row, columns);
+
+});
+
+medium_button.addEventListener("click", function() {
+
+  row = 20;
+  mines = 40
+  columns = 15;
+  total_buttons = row * columns;
+  hideDifficulties();
+  generateTable(row, columns);
+
+});
+
+advanced_button.addEventListener("click", function() {
+
+  row = 30;
+  mines = 99
+  columns = 20;
+  total_buttons = row * columns;
+  hideDifficulties();
+  generateTable(row, columns);
+
+});
+
+function hideDifficulties()  {
+
+  beginner_button.style = 'display: none;'
+  easy_button.style = 'display: none;'
+  medium_button.style = 'display: none;'
+  advanced_button.style = 'display: none;'
+
+}
+
+let actual_buttons = 1;
+
+function generateTable(r, c) {
+
+  let t = '';
+
+  for (let i = 1; i <= r; i++) {
+
+    t += '<tr>'
+
+    for (let e = 1; e <= c; e++) {
+      
+      t += `<td><button id="bm${actual_buttons}"></button></td>`;
+      buttons_mines[`bm${actual_buttons}`] = false;
+      actual_buttons++
+
+    }
+
+    t += '</tr>'
+
+  }
+
+  for (number of randomNumbers(mines, 1, total_buttons)) {
+
+    buttons_mines[`bm${number}`] = true;
+
+  }
+
+  tables.innerHTML = t;
+  
+
+  
+  
+//seguir aqui
+
+
+  for (let i = 1; i <= total_buttons; i++) {
+
+    document.getElementById(`bm${i}`).addEventListener("click", clickButton)
+
+  }
+
+  
+}
+
+function clickButton(e) {
+  let id_number = e.path[0].attributes[0].value.slice(2);
+
+  document.getElementById(`bm${id_number}`).style = "border: 1px solid #000000;"
+
+  let limits_right = [];
+  let limits_bottom = [];
+  let limits_left = [];
+  let limits_top = [];
+  
+  let asdxd = columns;
+  
+  for (let i = 1; i <= row; i++) {
+    
+    limits_right.push(asdxd);
+    asdxd += columns;
+    
+  }
+  asdxd = (columns * (row-1)) + 1;
+  for (let i = 1; i <= columns; i++) {
+    
+    limits_bottom.push(asdxd)
+    asdxd++
+    
+  }
+  asdxd = 1;
+  for (let i = 1; i <= row; i++) {
+    
+    limits_left.push(asdxd);
+    asdxd += columns;
+    
+  }
+ for (let i = 1; i <= columns; i++) {
+    
+    limits_top.push(i);
+    
+  }
+
+  if (buttons_mines[`bm${id_number}`]) {
+
+    // poner despues que ponga la x donde esten todas las minas
+    alert('game over')
+
+  } else {
+
+    let minas_alrededor = minesAround(id_number, limits_top, limits_right, limits_bottom, limits_left);
+
+    if (minas_alrededor >= 1) {
+
+      document.getElementById(`bm${id_number}`).innerHTML = minas_alrededor;
+
+    } else {
+      //dolor de cabeza hacer el algoritmo este
+    }
+
+  }
+}
+
+function randomNumbers(cantidad, min, max) {
+
+  let numbers = [];
+  for (let i = 1; i <= cantidad; i++) {
+    
+    let number = Math.floor(Math.random() * (max - min + 1)) + min;
+    if (!numbers.includes(number)) {
+      
+      numbers.push(number);
+      
+    } else {
+      
+      i--
+      
+    }
+
+  }
+  return numbers
+
+}
+
+function minesAround(bm, limits_top, limits_right, limits_bottom, limits_left) {
+  console.log(bm + ' numero')
+  let mines_around = 0;
+
+  // aqui hay un error, dice que hay una mina alrededor cuando no hay nada y no se que es hasta lo he comprobado manualmente y no hay ninguna mina alrededor esta vaina dice q si hay
+  if (!limits_top.includes(bm)) {
+
+    if (buttons_mines[`bm${bm-columns}`]) {
+
+      mines_around += 1;
+      console.log('arriba')
+
+    }
+
+  }
+  if (!limits_right.includes(bm)) {
+
+    if (buttons_mines[`bm${bm+1}`]) {
+      
+      mines_around += 1;
+      console.log('derecha')
+      
+    }
+
+  }
+  if (!limits_bottom.includes(bm)) {
+
+    if (buttons_mines[`bm${bm+columns}`]) {
+
+      mines_around += 1;
+      console.log('abajo')
+      
+    }
+
+  }
+  if (!limits_left.includes(bm)) {
+
+      if (buttons_mines[`bm${bm-1}`]) {
+        
+        mines_around += 1;
+        console.log('izquierda')
+        
+      }
+
+  }
+  if (!limits_bottom.includes(bm) && !limits_left.includes(bm)) {
+
+    if (buttons_mines[`bm${bm+columns - 1}`]) {
+
+    mines_around += 1;
+    console.log('abajo a la izquierda')
+    
+    }
+
+  }
+  if (!limits_bottom.includes(bm) && !limits_right.includes(bm)) {
+
+    if (buttons_mines[`bm${bm+columns + 1}`]) {
+  
+      mines_around += 1;
+      console.log('abajo a la derecha')
+      
+    }
+
+  }
+  if (!limits_top.includes(bm) && !limits_left.includes(bm)) {
+
+    if (buttons_mines[`bm${bm-columns - 1}`]) {
+      
+      mines_around += 1;
+      console.log('arriba a la izquierda')
+
+    }
+
+  }
+  if (!limits_top.includes(bm) && !limits_right.includes(bm)) {
+
+    if (buttons_mines[`bm${bm-columns + 1}`]) {
+      
+      mines_around += 1;
+      console.log('arriba a la derecha')
+
+    }
+    
+  }
+  
+  return mines_around;
+
+}
+
+
+el anterior no sirve, el siguiente si
+
+
+
+let beginner_button = document.getElementById("begginer")
+let easy_button = document.getElementById("easy")
+let medium_button = document.getElementById("medium")
+let advanced_button = document.getElementById("advanced")
+
+let tables = document.getElementById("minesweepers")
+
+let row = 0;
+let columns = 0;
+let mines = 0;
+let total_buttons = 0;
+let buttons_mines = {};
+
+
+beginner_button.addEventListener("click", function() {
+
+  row = 10;
+  mines = 7
+  columns = 8;
+  total_buttons = row * columns;
+  hideDifficulties();
+  generateTable(row, columns);
+
+});
+
+easy_button.addEventListener("click", function() {
+
+  row = 14;
+  mines = 15
+  columns = 9;
+  total_buttons = row * columns;
+  hideDifficulties();
+  generateTable(row, columns);
+
+});
+
+medium_button.addEventListener("click", function() {
+
+  row = 20;
+  mines = 40
+  columns = 15;
+  total_buttons = row * columns;
+  hideDifficulties();
+  generateTable(row, columns);
+
+});
+
+advanced_button.addEventListener("click", function() {
+
+  row = 30;
+  mines = 99
+  columns = 20;
+  total_buttons = row * columns;
+  hideDifficulties();
+  generateTable(row, columns);
+
+});
+
+function hideDifficulties()  {
+
+  beginner_button.style = 'display: none;'
+  easy_button.style = 'display: none;'
+  medium_button.style = 'display: none;'
+  advanced_button.style = 'display: none;'
+
+}
+
+let actual_buttons = 1;
+
+function generateTable(r, c) {
+
+  let t = '';
+
+  for (let i = 1; i <= r; i++) {
+
+    t += '<tr>'
+
+    for (let e = 1; e <= c; e++) {
+      
+      t += `<td><button id="bm${actual_buttons}"></button></td>`;
+      buttons_mines[`bm${actual_buttons}`] = false;
+      actual_buttons++
+
+    }
+
+    t += '</tr>'
+
+  }
+
+  for (number of randomNumbers(mines, 1, total_buttons)) {
+
+    buttons_mines[`bm${number}`] = true;
+
+  }
+
+  tables.innerHTML = t;
+  
+  let limits_right = [];
+  let limits_bottom = [];
+  let limits_left = [];
+  let limits_top = [];
+  
+  let asdxd = columns;
+  
+  for (let i = 1; i <= row; i++) {
+    
+    limits_right.push(asdxd);
+    asdxd += columns;
+    
+  }
+  asdxd = (columns * (row-1)) + 1;
+  for (let i = 1; i <= columns; i++) {
+    
+    limits_bottom.push(asdxd)
+    asdxd++
+    
+  }
+  asdxd = 1;
+  for (let i = 1; i <= row; i++) {
+    
+    limits_left.push(asdxd);
+    asdxd += columns;
+    
+  }
+ for (let i = 1; i <= columns; i++) {
+    
+    limits_top.push(i);
+    
+  }
+  
+  
+//seguir aqui
+
+
+  for (let i = 1; i <= total_buttons; i++) {
+
+    document.getElementById(`bm${i}`).addEventListener("click", function() {
+
+      document.getElementById(`bm${i}`).style = "border: 1px solid #000000;"
+
+      if (buttons_mines[`bm${i}`]) {
+
+        // poner despues que ponga la x donde esten todas las minas
+        alert('game over')
+
+      } else {
+
+        let minas_alrededor = minesAround(i, limits_top, limits_right, limits_bottom, limits_left);
+
+        if (minas_alrededor >= 1) {
+
+          document.getElementById(`bm${i}`).innerHTML = minas_alrededor;
+
+        } else {
+          //dolor de cabeza hacer el algoritmo este
+        }
+
+      }
+
+    })
+
+  }
+
+  
+}
+
+function randomNumbers(cantidad, min, max) {
+
+  let numbers = [];
+  for (let i = 1; i <= cantidad; i++) {
+    
+    let number = Math.floor(Math.random() * (max - min + 1)) + min;
+    if (!numbers.includes(number)) {
+      
+      numbers.push(number);
+      
+    } else {
+      
+      i--
+      
+    }
+
+  }
+  return numbers
+
+}
+
+function minesAround(bm, limits_top, limits_right, limits_bottom, limits_left) {
+  
+  let mines_around = 0;
+  if (!limits_top.includes(bm)) {
+
+    if (buttons_mines[`bm${bm-columns}`]) {
+
+      mines_around += 1
+
+    }
+
+  }
+  if (!limits_right.includes(bm)) {
+
+    if (buttons_mines[`bm${bm+1}`]) {
+      
+      mines_around += 1
+      
+    }
+
+  }
+  if (!limits_bottom.includes(bm)) {
+
+    if (buttons_mines[`bm${bm+columns}`]) {
+
+      mines_around += 1
+      
+    }
+
+  }
+  if (!limits_left.includes(bm)) {
+
+      if (buttons_mines[`bm${bm-1}`]) {
+        
+        mines_around += 1
+        
+      }
+
+  }
+  if (!limits_bottom.includes(bm) && !limits_left.includes(bm)) {
+
+    if (buttons_mines[`bm${bm+columns - 1}`]) {
+
+    mines_around += 1
+    
+    }
+
+  }
+  if (!limits_bottom.includes(bm) && !limits_right.includes(bm)) {
+
+    if (buttons_mines[`bm${bm+columns + 1}`]) {
+  
+      mines_around += 1
+      
+    }
+
+  }
+  if (!limits_top.includes(bm) && !limits_left.includes(bm)) {
+
+    if (buttons_mines[`bm${bm-columns - 1}`]) {
+      
+      mines_around += 1
+
+    }
+
+  }
+  if (!limits_top.includes(bm) && !limits_right.includes(bm)) {
+
+    if (buttons_mines[`bm${bm-columns + 1}`]) {
+      
+      mines_around += 1
+
+    }
+    
+  }
+
+  return mines_around;
+
+}
+
+
+
+
+
+
+
+
+// function
+
+
+
+
+
+
+
+
+function infoButton(boton) {
+  let info = {};
+
+  info.on_limits = {};
+  info.mines_around = {};
+  info.mines_around.total = 0;
+  // info.clicked = false;
+  // info.marked = false;
+
+  let limits_right = [];
+  let limits_bottom = [];
+  let limits_left = [];
+  let limits_top = [];
+  
+  let asdxd = columns;
+  
+  for (let i = 1; i <= row; i++) {
+    
+    limits_right.push(asdxd);
+    asdxd += columns;
+    
+  }
+  asdxd = (columns * (row-1)) + 1;
+  for (let i = 1; i <= columns; i++) {
+    
+    limits_bottom.push(asdxd)
+    asdxd++
+    
+  }
+  asdxd = 1;
+  for (let i = 1; i <= row; i++) {
+    
+    limits_left.push(asdxd);
+    asdxd += columns;
+    
+  }
+ for (let i = 1; i <= columns; i++) {
+    
+    limits_top.push(i);
+    
+  }
+
+  if (limits_top.includes(boton)) {
+
+    info.on_limits.top = true;
+
+  } else {
+
+    info.on_limits.top = false;
+
+  }
+  if (limits_right.includes(boton)) {
+
+    info.on_limits.right = true;
+
+  } else {
+
+    info.on_limits.right = false;
+
+  }
+  if (limits_bottom.includes(boton)) {
+
+    info.on_limits.bottom = true;
+
+  } else {
+
+    info.on_limits.bottom = false;
+
+  }
+  if (limits_left.includes(boton)) {
+
+    info.on_limits.left = true;
+
+  } else {
+
+    info.on_limits.left = false;
+
+  }
+
+
+
+
+  if (!limits_top.includes(boton)) {
+
+    if (buttons_mines[`bm${boton-columns}`]) {
+
+      info.mines_around.total += 1;
+      info.mines_around.top = true;
+
+    } else {
+      
+      info.mines_around.top = false;
+
+    }
+
+  }
+  if (!limits_right.includes(boton)) {
+
+    if (buttons_mines[`bm${boton+1}`]) {
+      
+      info.mines_around.total += 1;
+      info.mines_around.right = true;
+      
+    } else {
+      
+      info.mines_around.right = false;
+
+    }
+
+  }
+  if (!limits_bottom.includes(boton)) {
+
+    if (buttons_mines[`bm${boton+columns}`]) {
+
+      info.mines_around.total += 1;
+      info.mines_around.bottom = true;
+      
+    } else {
+      
+      info.mines_around.bottom = false;
+
+    }
+
+  }
+  if (!limits_left.includes(boton)) {
+
+      if (buttons_mines[`bm${boton-1}`]) {
+        
+        info.mines_around.total += 1;
+        info.mines_around.left = true;
+        
+      } else {
+        
+        info.mines_around.left = false;
+
+      }
+
+  }
+  if (!limits_bottom.includes(boton) && !limits_left.includes(boton)) {
+
+    if (buttons_mines[`bm${boton+columns - 1}`]) {
+
+    info.mines_around.total += 1;
+    info.mines_around.bottom_left = true;
+    
+    } else {
+      
+      info.mines_around.bottom_left = false;
+
+    }
+
+  }
+  if (!limits_bottom.includes(boton) && !limits_right.includes(boton)) {
+
+    if (buttons_mines[`bm${boton+columns + 1}`]) {
+  
+      info.mines_around.total += 1;
+      info.mines_around.bottom_right = true;
+      
+    } else {
+      
+      info.mines_around.bottom_right = false;
+
+    }
+
+  }
+  if (!limits_top.includes(boton) && !limits_left.includes(boton)) {
+
+    if (buttons_mines[`bm${boton-columns - 1}`]) {
+      
+      info.mines_around.total += 1;
+      info.mines_around.top_left = true;
+
+    } else {
+      
+      info.mines_around.top_left = false;
+
+    }
+
+  }
+  if (!limits_top.includes(boton) && !limits_right.includes(boton)) {
+
+    if (buttons_mines[`bm${boton-columns + 1}`]) {
+      
+      info.mines_around.total += 1;
+      info.mines_around.top_right = true;
+
+    } else {
+      
+      info.mines_around.top_right = false;
+
+    }
+    
+  }
+
+  return info;
+
+}
