@@ -1,126 +1,125 @@
 header {
-  background-attachment: fixed;
-  padding: 8px;
-  width: 100%;
-  left: 0;
-  top: 0;
-  position: fixed;
-  border-bottom: 10px solid #bbbb;
-  background-color: #e5e5e5e5;
-
+	background-attachment: fixed;
+	padding: 8px;
+	width: 100%;
+	left: 0;
+	top: 0;
+	position: fixed;
+	border-bottom: 10px solid #bbbb;
+	background-color: #e5e5e5e5;
 }
 
 p {
-  display: inline;
-  text-align: center;
-  margin: 5px;
-  margin-top: -10000em;
-  padding: 10px 15px;
-  background-color: black;
-  border: 1px solid #ff0000;
-  color: #ff0000;
-  font-size: 1.4em;
+	display: inline;
+	text-align: center;
+	margin: 5px;
+	margin-top: -10000em;
+	padding: 10px 15px;
+	background-color: black;
+	border: 1px solid #ff0000;
+	color: #ff0000;
+	font-size: 1.4em;
 }
 
 #recharge-button {
-  padding: 0;
-  
-  height: min-content;
-  width: min-content;
-  background-color: transparent;
-  border: 5px solid;
-  border-left-color: #ffffff;
-  border-top-color: #ffffff;
-  border-bottom-color: #bbbbbb;
-  border-right-color: #bbbbbb;
+	padding: 0;
+
+	height: min-content;
+	width: min-content;
+	background-color: transparent;
+	border: 5px solid;
+	border-left-color: #ffffff;
+	border-top-color: #ffffff;
+	border-bottom-color: #bbbbbb;
+	border-right-color: #bbbbbb;
 }
 
 #recharge-button img {
-  height: 40px;
-  width: 40px;
+	height: 40px;
+	width: 40px;
 }
 
 .info {
-  margin-left: 43.5%;
-  display: inline;
+	margin-left: 43.5%;
+	display: inline;
 }
 
 body {
-  margin: 0;
-  background-color: #cccccc
+	margin: 0;
+	background-color: #cccccc;
 }
 
 main {
-  margin-top: 7%;
+	margin-top: 7%;
 }
 
 #begginer {
-  background-color: #00be00; 
+	background-color: #00be00;
 }
 
 #easy {
-  background-color: #0000e9;
+	background-color: #0000e9;
 }
 
 #medium {
-  background-color: #ff6b6b;
+	background-color: #ff6b6b;
 }
 
 #advanced {
-  background-color: #d40000; 
+	background-color: #d40000;
 }
 
 .buttond {
-  display: block;
-  margin: auto;
-  margin-top: 6px;
-  border-width: 1px;
-  border-radius: 5px;
-  font-size: 20px;
-  height: 50px;
-  width: 150px;
-  transition-duration: 0.4s;
+	display: block;
+	margin: auto;
+	margin-top: 6px;
+	border-width: 1px;
+	border-radius: 5px;
+	font-size: 20px;
+	height: 50px;
+	width: 150px;
+	transition-duration: 0.4s;
 }
 
 .buttond:hover {
-  background-color: #cccccc!important;
+	background-color: #cccccc !important;
 }
 
 .buttond:first-child {
-  margin-top: 7%;
+	margin-top: 7%;
 }
 
 table {
-  margin: auto;
+	margin: auto;
 }
 
 td button {
-  background-color: transparent;
-  /* color: black!important; */
-  height: 50px;
-  width: 50px;
-  margin: -2px;
-  padding: 0px;
-  border: 5px solid;
-  border-left-color: #ffffff;
-  border-top-color: #ffffff;
-  border-bottom-color: #bbbbbb;
-  border-right-color: #bbbbbb;
+	background-color: transparent;
+	/* color: black!important; */
+	height: 50px;
+	width: 50px;
+	margin: -2px;
+	padding: 0px;
+	border: 5px solid;
+	border-left-color: #ffffff;
+	border-top-color: #ffffff;
+	border-bottom-color: #bbbbbb;
+	border-right-color: #bbbbbb;
 }
 
 td {
-  padding: 0px;
-  margin: 0px;
+	padding: 0px;
+	margin: 0px;
 }
 
 * ::before ::after {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
-#audio{
-  display: none
+#audio {
+	display: none;
 }
 
 td img {
-  width:40px;
+	width: 40px;
 }
